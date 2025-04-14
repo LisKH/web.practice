@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать запись</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="auth-background">
+
+<div class="form-container">
+    <img src="{{ url_for('static', filename='avatar.jpg') }}" class="avatar" alt="Avatar">
+    <h2>Редактирование записи</h2>
+    <form method="post">
+        <input type="text" name="name" placeholder="Имя" value="{{ data.name }}" required>
+        <input type="text" name="surname" placeholder="Фамилия" value="{{ data.surname }}" required>
+        <input type="text" name="middlename" placeholder="Отчество" value="{{ data.middlename }}" required>
+        <input type="text" name="course_id" placeholder="ID курса" value="{{ data.course_id }}" required>
+        <input type="text" name="lesson_id" placeholder="ID урока" value="{{ data.lesson_id }}" required>
+        <input type="text" name="login" placeholder="Логин" value="{{ data.login }}" required>
+        <input type="password" name="password" placeholder="Пароль" value="{{ data.password }}" required>
+        <button type="submit">Сохранить</button>
+        <a href="{{ url_for('index') }}" class="cancel-btn">Отмена</a>
+    </form>
+</div>
+
+</body>
+</html>

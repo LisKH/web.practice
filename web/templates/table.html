@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Таблица {{ table }}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+      min-height: 100vh;
+      padding: 40px 20px;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+
+    h1 {
+      font-weight: bold;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.4);
+      margin-bottom: 0;
+    }
+
+    .table-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .table-image {
+      max-height: 150px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.5);
+    }
+
+    .btn-custom {
+      font-weight: bold;
+      border-radius: 10px;
+      padding: 10px 20px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn-custom:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+    }
+
+    .btn-secondary {
+      background-color: #6c757d;
+      border: none;
+      color: white;
+    }
+
+    .btn-success {
+      background: linear-gradient(145deg, #00c851, #007e33);
+      border: none;
+      color: white;
+    }
+
+    .btn-warning {
+      background-color: #ffc107;
+      border: none;
+    }
+
+    .btn-danger {
+      background-color: #dc3545;
+      border: none;
+    }
+
+    .table {
+      background-color: white;
+      color: #333;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th {
+      background-color: #343a40 !important;
+      color: white;
+    }
+
+    td, th {
+      vertical-align: middle !important;
+    }
+
+    .input-group input {
+      border-radius: 10px 0 0 10px !important;
+    }
+
+    .input-group button {
+      border-radius: 0 10px 10px 0 !important;
+    }
+
+    .no-data {
+      color: #ccc;
+      text-align: center;
+      padding: 20px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    {% set table_images = {
+      'courses': 'trippi troppa.png',
+      'lesson': 'tralalelo tralala.jpg',
+      'teacher': 'shrippi shimpazini.jpg',
+      'test': 'boneco ambalalu.png',
+      'users': 'trippo.png'
+    } %}
+
+    <div class="table-header">
+      <h1>Таблица: {{ table }}</h1>
+      {% if table in table_images %}
+        <img src="{{ url_for('static', filename='images/' + table_images[table]) }}" alt="{{ table }}" class="table-image">
+      {% endif %}
+    </div>
+
+    <div class="mb-3 d-flex flex-wrap gap-2">
+      <a href="{{ url_for('index') }}" class="btn btn-custom btn-secondary">← Назад</a>
+      <a href="{{ url_for('add_record', table=table) }}" class="btn btn-custom btn-success">+ Добавить запись</a>
+    </div>
+
+    <form method="get" action="{{ url_for('show_table', table=table) }}" class="mb-3">
+      <div class="input-group">
+        <input type="text" name="search" class="form-control" placeholder="Поиск..." value="{{ search or '' }}">
+        <button type="submit" class="btn btn-primary">🔍 Найти</button>
+      </div>
+    </form>
+
+    <table class="table table-bordered table-striped table-hover">
+      <thead>
+        <tr>
+          {% for col in columns %}
+            <th>{{ col }}</th>
+          {% endfor %}
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if data %}
+          {% for row in data %}
+            <tr>
+              {% for col in columns %}
+                <td>{{ row[col] }}</td>
+              {% endfor %}
+              <td>
+                <a href="{{ url_for('edit_record', table=table, row_id=row[columns[0]]) }}" class="btn btn-sm btn-warning">✏️</a>
+                <form method="POST" action="{{ url_for('delete_record', table=table, row_id=row[columns[0]]) }}" style="display:inline;" onsubmit="return confirm('Удалить запись?');">
+                  <button type="submit" class="btn btn-sm btn-danger">🗑️</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="{{ columns|length + 1 }}" class="no-data">Нет данных для отображения</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

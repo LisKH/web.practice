@@ -1,0 +1,35 @@
+body {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.form-glass {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+.form-glass input {
+  margin-bottom: 15px;
+}
+
+.btn-save {
+  background: linear-gradient(145deg, #00c6ff, #0072ff);
+  border: none;
+  font-weight: bold;
+  color: white;
+}
+
+.btn-save:hover {
+  background: linear-gradient(145deg, #0072ff, #00c6ff);
+}

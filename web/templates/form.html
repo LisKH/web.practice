@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ action }} запись</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+  <div class="form-glass">
+    <h2 class="mb-4">{{ action }} запись в таблице "{{ table }}"</h2>
+
+    <form method="POST">
+      {% for col in columns %}
+        <input type="text" class="form-control" name="{{ col }}" placeholder="{{ col }}"
+               value="{{ values[col] if values else '' }}" required>
+      {% endfor %}
+      <button type="submit" class="btn btn-save w-100 mt-3">{{ action }}</button>
+    </form>
+
+    <a href="{{ url_for('show_table', table=table) }}" class="btn btn-secondary w-100 mt-2">Назад</a>
+  </div>
+
+</body>
+</html>
